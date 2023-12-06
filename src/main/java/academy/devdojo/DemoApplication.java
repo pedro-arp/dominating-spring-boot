@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 import java.util.Arrays;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"test.outside", "academy.devdojo", "exercice.getmapping"})
+@ComponentScan(basePackages = {"test.outside", "academy.devdojo", "exercices.springboot"})
 
 public class DemoApplication {
 
