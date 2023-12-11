@@ -12,12 +12,13 @@ import java.util.List;
 @Log4j2
 public class AnimeController {
     @GetMapping
-    public List<Anime> list(){
+    public List<Anime> list() {
         log.info("Request received to list all animes");
-       return Anime.getAnimes();
+        return Anime.getAnimes();
     }
+
     @GetMapping("filter")
-    public List<Anime> findByName(@RequestParam(required = false) String name){
+    public List<Anime> findByName(@RequestParam(required = false) String name) {
         log.info("Request received to list all animes, param name '{}'", name);
         var animes = Anime.getAnimes();
         if (name == null) return animes;
@@ -25,12 +26,22 @@ public class AnimeController {
     }
 
     @GetMapping("{id}")
-    public Anime findById(@PathVariable Long id){
+    public Anime findById(@PathVariable Long id) {
         log.info("Request received to find anime by id '{}'", id);
 
         if (id == 0) return null;
         return Anime.getAnimes().stream().filter(anime -> anime.getId().equals(id)).findFirst().orElse(null);
     }
+
+    @PostMapping("post")
+    public Anime save(@RequestBody Anime anime) {
+        Anime lastObject = Anime.getAnimes().get(Anime.getAnimes().size() -1);
+        anime.setId(lastObject.getId() + 1);
+        Anime.getAnimes().add(anime);
+        log.info("Saving anime '{}', id: '{}'", anime.getName(), anime.getId());
+        return anime;
+    }
+
 }
 
 
