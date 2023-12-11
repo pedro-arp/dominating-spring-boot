@@ -11,7 +11,7 @@ import java.util.List;
 @RequestMapping(path = "v1/animes/")
 @Log4j2
 public class AnimeController {
-    @GetMapping("list")
+    @GetMapping
     public List<Anime> list(){
         log.info("Request received to list all animes");
        return Anime.getAnimes();
