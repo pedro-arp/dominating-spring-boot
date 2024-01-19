@@ -1,4 +1,4 @@
-package domain;
+package academy.devdojo.domain;
 
 import lombok.Builder;
 import lombok.Getter;
