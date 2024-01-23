@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,13 +12,14 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
+@ToString
 public class Anime {
-
     private Long id;
     @JsonProperty(value = "full_name")
     private String name;
     @Getter
     private static List<Anime> animes = new ArrayList<>();
+
     static {
         Anime anime1 = new Anime(1L, "Naruto");
         Anime anime2 = new Anime(2L, "Dragon Ball");

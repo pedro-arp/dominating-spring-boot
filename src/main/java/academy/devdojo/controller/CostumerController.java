@@ -32,7 +32,7 @@ public class CostumerController {
     }
 
     @GetMapping("{name}")
-    public String findByName(@PathVariable String name){
+    public String findByName(@PathVariable String name) {
         return NAMES.stream().filter(n -> n.equalsIgnoreCase(name))
                 .findFirst()
                 .orElse("");
