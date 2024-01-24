@@ -53,8 +53,8 @@ public class ProducerController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        var producer = Producer.getProducers().stream().filter(anime -> anime.getId().equals(id)).findFirst().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not found to be deleted"));
-        Producer.getProducers().remove(producer);
+        var producerFound = Producer.getProducers().stream().filter(producer -> producer.getId().equals(id)).findFirst().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not found to be deleted"));
+        Producer.getProducers().remove(producerFound);
         return ResponseEntity.noContent().build();
     }
 }

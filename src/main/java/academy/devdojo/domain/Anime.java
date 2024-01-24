@@ -1,19 +1,18 @@
 package academy.devdojo.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
+@Builder
 @ToString
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Anime {
+    @EqualsAndHashCode.Include
     private Long id;
     @JsonProperty(value = "full_name")
     private String name;
@@ -21,10 +20,10 @@ public class Anime {
     private static List<Anime> animes = new ArrayList<>();
 
     static {
-        Anime anime1 = new Anime(1L, "Naruto");
-        Anime anime2 = new Anime(2L, "Dragon Ball");
-        Anime anime3 = new Anime(3L, "One Piece");
-        Anime anime4 = new Anime(4L, "Pokemon");
+        var anime1 = Anime.builder().id(1L).name("Naruto").build();
+        var anime2 = Anime.builder().id(2L).name("Dragon Ball").build();
+        var anime3 = Anime.builder().id(3L).name("One Piece").build();
+        var anime4 = Anime.builder().id(4L).name("Pokemon").build();
         animes.addAll(List.of(anime1, anime2, anime3, anime4));
     }
 }
