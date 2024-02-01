@@ -36,7 +36,9 @@ public class ProducerController {
         var producers = Producer.getProducers();
         var producerGetResponses = MAPPER.toProducerGetResponseList(producers);
         if (name == null) return ResponseEntity.ok(producerGetResponses);
+
         producerGetResponses = producerGetResponses.stream().filter(producer -> producer.getName().equalsIgnoreCase(name)).toList();
+
         return ResponseEntity.ok(producerGetResponses);
     }
 
