@@ -1,5 +1,6 @@
 package academy.devdojo.controller;
 
+import academy.devdojo.domain.Producer;
 import academy.devdojo.mapper.ProducerMapper;
 import academy.devdojo.request.ProducerPostRequest;
 import academy.devdojo.request.ProducerPutRequest;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = {"v1/producers/", "v1/producers"})
@@ -35,6 +37,15 @@ public class ProducerController {
         var producersGetResponses = MAPPER.toProducerGetResponseList(producers);
 
         return ResponseEntity.ok(producersGetResponses);
+    }
+
+    @GetMapping("{id}")
+    public Optional<Producer> findById(@PathVariable Long id) {
+        log.info("Request received to found producer, param id: '{}'", id);
+
+        var producerFound = PRODUCER_SERVICE.findById(id);
+
+        return ResponseEntity.ok(producerFound).getBody();
     }
 
     @GetMapping("filter")

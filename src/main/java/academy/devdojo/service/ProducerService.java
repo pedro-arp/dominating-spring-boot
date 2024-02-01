@@ -9,34 +9,35 @@ import java.util.List;
 import java.util.Optional;
 
 public class ProducerService {
-    private final ProducerHardCodedRepository repository;
+    private final ProducerHardCodedRepository REPOSITORY;
 
     public ProducerService() {
-        this.repository = new ProducerHardCodedRepository();
-    }
-
-    public List<Producer> findAll(String name) {
-        return repository.findByName(name);
-    }
-
-    public Producer save(Producer producer) {
-        return repository.save(producer);
+        this.REPOSITORY = new ProducerHardCodedRepository();
     }
 
     public Optional<Producer> findById(Long id) {
-        return repository.findById(id);
+        return REPOSITORY.findById(id);
     }
+
+    public List<Producer> findAll(String name) {
+        return REPOSITORY.findByName(name);
+    }
+
+    public Producer save(Producer producer) {
+        return REPOSITORY.save(producer);
+    }
+
 
     public void delete(Long id) {
         var producer = findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not found to be deleted"));
-        repository.delete(producer);
+        REPOSITORY.delete(producer);
     }
 
     public void update(Producer producerToUpdate) {
         var producer = findById(producerToUpdate.getId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not found to be updated"));
         producerToUpdate.setCreatedAt(producer.getCreatedAt());
-        repository.update(producerToUpdate);
+        REPOSITORY.update(producerToUpdate);
     }
 }
