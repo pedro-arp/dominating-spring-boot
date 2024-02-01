@@ -23,9 +23,13 @@ public class AnimeController {
 
     @GetMapping
     public ResponseEntity<List<AnimeGetResponse>> list() {
+
         log.info("Request received to list all animes");
+
         var animes = Anime.getAnimes();
+
         var animesGetResponses = MAPPER.toAnimeGetResponseList(animes);
+
         return ResponseEntity.ok(animesGetResponses);
     }
 
@@ -33,9 +37,13 @@ public class AnimeController {
     public ResponseEntity<List<AnimeGetResponse>> findByName(@RequestParam(required = false) String name) {
         log.info("Request received to list all animes, param name '{}'", name);
         var animes = Anime.getAnimes();
+
         var animeGetResponses = MAPPER.toAnimeGetResponseList(animes);
+
         if (name == null) return ResponseEntity.ok(animeGetResponses);
+
         animeGetResponses = animeGetResponses.stream().filter(anime -> anime.getName().equalsIgnoreCase(name)).toList();
+
         return ResponseEntity.ok(animeGetResponses);
     }
 
@@ -44,7 +52,9 @@ public class AnimeController {
         log.info("Request received to find anime by id '{}'", id);
 
         var animeFound = Anime.getAnimes().stream().filter(anime -> anime.getId().equals(id)).findFirst().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not found"));
+
         var response = MAPPER.toAnimeGetResponse(animeFound);
+
         return ResponseEntity.ok(response);
 
     }
@@ -57,9 +67,11 @@ public class AnimeController {
         var anime = MAPPER.toAnime(request);
 
         Anime lastObject = Anime.getAnimes().getLast();
+
         anime.setId(lastObject.getId() + 1);
 
         var response = MAPPER.toAnimePostResponse(anime);
+
         Anime.getAnimes().add(anime);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
@@ -69,8 +81,14 @@ public class AnimeController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         log.info("Request received to delete the anime by id'{}'", id);
 
-        var animeFound = Anime.getAnimes().stream().filter(anime -> anime.getId().equals(id)).findFirst().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not found to be deleted"));
+        var animeFound = Anime.getAnimes()
+                .stream()
+                .filter(anime -> anime.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not found to be deleted"));
+
         Anime.getAnimes().remove(animeFound);
+
         return ResponseEntity.noContent().build();
     }
 
@@ -82,9 +100,13 @@ public class AnimeController {
                 .filter(anime -> anime.getId().equals(request.getId()))
                 .findFirst()
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not found to be deleted"));
+
         var animeUpdate = MAPPER.toAnime(request);
+
         Anime.getAnimes().remove(animeToRemove);
+
         Anime.getAnimes().add(animeUpdate);
+
         return ResponseEntity.noContent().build();
     }
 

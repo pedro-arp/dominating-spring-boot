@@ -17,12 +17,8 @@ public class ProducerHardCodedRepository {
         PRODUCERS.addAll(List.of(producer1, producer2, producer3));
     }
 
-    public List<Producer> findAll() {
-        return PRODUCERS;
-    }
-
     public Optional<Producer> findById(Long id) {
-        return PRODUCERS.stream().filter(producer -> false).findFirst();
+        return PRODUCERS.stream().filter(producer -> producer.getId().equals(id)).findFirst();
     }
 
     public List<Producer> findByName(String name) {
