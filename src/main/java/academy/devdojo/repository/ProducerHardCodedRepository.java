@@ -26,7 +26,8 @@ public class ProducerHardCodedRepository {
     }
 
     public List<Producer> findByName(String name) {
-        return PRODUCERS.stream().filter(producer -> producer.getName().equalsIgnoreCase(name)).toList();
+        return name == null ? PRODUCERS :
+                PRODUCERS.stream().filter(producer -> producer.getName().equalsIgnoreCase(name)).toList();
     }
 
     public Producer save(Producer producer) {

@@ -13,9 +13,14 @@ import java.util.List;
 @Mapper
 public interface AnimeMapper {
     AnimeMapper INSTANCE = Mappers.getMapper(AnimeMapper.class);
+
     Anime toAnime(AnimePostRequest request);
+
     Anime toAnime(AnimePutRequest request);
+
     AnimePostResponse toAnimePostResponse(Anime anime);
+
     AnimeGetResponse toAnimeGetResponse(Anime anime);
+
     List<AnimeGetResponse> toAnimeGetResponseList(List<Anime> animes);
 }
