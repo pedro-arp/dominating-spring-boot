@@ -2,18 +2,19 @@ package academy.devdojo.service;
 
 import academy.devdojo.domain.Producer;
 import academy.devdojo.repository.ProducerHardCodedRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
+@RequiredArgsConstructor
 public class ProducerService {
-    private final ProducerHardCodedRepository REPOSITORY;
 
-    public ProducerService() {
-        this.REPOSITORY = new ProducerHardCodedRepository();
-    }
+    private final ProducerHardCodedRepository REPOSITORY;
 
     public Optional<Producer> findById(Long id) {
         return REPOSITORY.findById(id);
