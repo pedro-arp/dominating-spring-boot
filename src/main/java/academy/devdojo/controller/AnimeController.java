@@ -7,6 +7,7 @@ import academy.devdojo.request.AnimePutRequest;
 import academy.devdojo.response.AnimeGetResponse;
 import academy.devdojo.response.AnimePostResponse;
 import academy.devdojo.service.AnimeService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,22 +20,20 @@ import java.util.Optional;
 @RestController
 @RequestMapping(path = "v1/animes/")
 @Log4j2
+@RequiredArgsConstructor
 public class AnimeController {
-    private static final AnimeMapper MAPPER = AnimeMapper.INSTANCE;
-    private final AnimeService ANIME_SERVICE;
+    private final AnimeMapper mapper;
 
-    public AnimeController() {
-        ANIME_SERVICE = new AnimeService();
-    }
+    private final AnimeService animeService;
 
     @GetMapping
     public ResponseEntity<List<AnimeGetResponse>> list(@RequestParam(required = false) String name) {
 
         log.info("Request received to list all animes");
 
-        var animes = ANIME_SERVICE.findAll(name);
+        var animes = animeService.findAll(name);
 
-        var animesGetResponses = MAPPER.toAnimeGetResponseList(animes);
+        var animesGetResponses = mapper.toAnimeGetResponseList(animes);
 
         return ResponseEntity.ok(animesGetResponses);
     }
@@ -43,7 +42,7 @@ public class AnimeController {
     public Optional<Anime> findById(@PathVariable Long id) {
         log.info("Request received to find anime by id '{}'", id);
 
-        var animeFound = ANIME_SERVICE.findById(id);
+        var animeFound = animeService.findById(id);
 
         return ResponseEntity.ok(animeFound).getBody();
 
@@ -52,9 +51,9 @@ public class AnimeController {
     @GetMapping("filter")
     public ResponseEntity<List<AnimeGetResponse>> findByName(@RequestParam(required = false) String name) {
         log.info("Request received to list all animes, param name '{}'", name);
-        var animes = ANIME_SERVICE.findAll(name);
+        var animes = animeService.findAll(name);
 
-        var animeGetResponses = MAPPER.toAnimeGetResponseList(animes);
+        var animeGetResponses = mapper.toAnimeGetResponseList(animes);
 
         return ResponseEntity.ok(animeGetResponses);
     }
@@ -64,11 +63,11 @@ public class AnimeController {
 
         log.info("Request received save anime '{}'", request);
 
-        var anime = MAPPER.toAnime(request);
+        var anime = mapper.toAnime(request);
 
-        anime = ANIME_SERVICE.save(anime);
+        anime = animeService.save(anime);
 
-        var response = MAPPER.toAnimePostResponse(anime);
+        var response = mapper.toAnimePostResponse(anime);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -77,7 +76,7 @@ public class AnimeController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         log.info("Request received to delete the anime by id'{}'", id);
 
-        ANIME_SERVICE.delete(id);
+        animeService.delete(id);
 
         return ResponseEntity.noContent().build();
     }
@@ -86,9 +85,9 @@ public class AnimeController {
     public ResponseEntity<Void> update(@RequestBody AnimePutRequest request) {
         log.info("Request received to delete the anime by id'{}'", request);
 
-        var animeToUpdate = MAPPER.toAnime(request);
+        var animeToUpdate = mapper.toAnime(request);
 
-        ANIME_SERVICE.update(animeToUpdate);
+        animeService.update(animeToUpdate);
 
         return ResponseEntity.noContent().build();
     }

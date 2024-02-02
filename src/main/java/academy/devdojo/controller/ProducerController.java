@@ -24,16 +24,16 @@ import java.util.Optional;
 
 public class ProducerController {
 
-    private static final ProducerMapper MAPPER = ProducerMapper.INSTANCE;
-    private final ProducerService PRODUCER_SERVICE;
+    private final ProducerMapper mapper;
+    private final ProducerService producerService;
 
     @GetMapping
     public ResponseEntity<List<ProducerGetResponse>> list(@RequestParam(required = false) String name) {
         log.info("Request received to list all producers");
 
-        var producers = PRODUCER_SERVICE.findAll(name);
+        var producers = producerService.findAll(name);
 
-        var producersGetResponses = MAPPER.toProducerGetResponseList(producers);
+        var producersGetResponses = mapper.toProducerGetResponseList(producers);
 
         return ResponseEntity.ok(producersGetResponses);
     }
@@ -42,7 +42,7 @@ public class ProducerController {
     public Optional<Producer> findById(@PathVariable Long id) {
         log.info("Request received to found producer, param id: '{}'", id);
 
-        var producerFound = PRODUCER_SERVICE.findById(id);
+        var producerFound = producerService.findById(id);
 
         return ResponseEntity.ok(producerFound).getBody();
     }
@@ -52,9 +52,9 @@ public class ProducerController {
 
         log.info("Request received to list all producers, param name '{}'", name);
 
-        var producers = PRODUCER_SERVICE.findAll(name);
+        var producers = producerService.findAll(name);
 
-        var producerGetResponses = MAPPER.toProducerGetResponseList(producers);
+        var producerGetResponses = mapper.toProducerGetResponseList(producers);
 
         return ResponseEntity.ok(producerGetResponses);
     }
@@ -63,11 +63,11 @@ public class ProducerController {
 
     public ResponseEntity<ProducerPostResponse> save(@RequestBody ProducerPostRequest request) {
 
-        var producer = MAPPER.toProducer(request);
+        var producer = mapper.toProducer(request);
 
-        producer = PRODUCER_SERVICE.save(producer);
+        producer = producerService.save(producer);
 
-        var response = MAPPER.toProducerPostResponse(producer);
+        var response = mapper.toProducerPostResponse(producer);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -77,7 +77,7 @@ public class ProducerController {
 
         log.info("Request received to delete the producer by id'{}'", id);
 
-        PRODUCER_SERVICE.delete(id);
+        producerService.delete(id);
 
         return ResponseEntity.noContent().build();
     }
@@ -87,9 +87,9 @@ public class ProducerController {
 
         log.info("Request received to delete the producer by id'{}'", request);
 
-        var producerToUpdate = MAPPER.toProducer(request);
+        var producerToUpdate = mapper.toProducer(request);
 
-        PRODUCER_SERVICE.update(producerToUpdate);
+        producerService.update(producerToUpdate);
 
         return ResponseEntity.noContent().build();
     }
