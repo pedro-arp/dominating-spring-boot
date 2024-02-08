@@ -12,22 +12,22 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+
 public class ProducerService {
 
     private final ProducerHardCodedRepository REPOSITORY;
-
-    public Optional<Producer> findById(Long id) {
-        return REPOSITORY.findById(id);
-    }
 
     public List<Producer> findAll(String name) {
         return REPOSITORY.findByName(name);
     }
 
+    public Optional<Producer> findById(Long id) {
+        return REPOSITORY.findById(id);
+    }
+
     public Producer save(Producer producer) {
         return REPOSITORY.save(producer);
     }
-
 
     public void delete(Long id) {
         var producer = findById(id)
