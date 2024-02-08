@@ -16,4 +16,5 @@ public class BeanConfig {
     public Connection connectionMongoDb(){
         return new Connection("localhost::MongoDB", "user", "password");
     }
+
 }

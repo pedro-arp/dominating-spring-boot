@@ -1,39 +1,43 @@
 package academy.devdojo.repository;
 
 import academy.devdojo.domain.Anime;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Repository;
+import test.outside.Connection;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-@Repository
-public class AnimeHardCodedRepository {
-    private static final List<Anime> ANIMES = new ArrayList<>();
 
-    static {
-        var anime1 = Anime.builder().id(1L).name("Naruto").build();
-        var anime2 = Anime.builder().id(2L).name("Dragon Ball").build();
-        var anime3 = Anime.builder().id(3L).name("One Piece").build();
-        var anime4 = Anime.builder().id(4L).name("Pokemon").build();
-        ANIMES.addAll(List.of(anime1, anime2, anime3, anime4));
+@Repository
+@RequiredArgsConstructor
+@Log4j2
+public class AnimeHardCodedRepository {
+
+    private final AnimeData animeData;
+    private final Connection connection;
+
+    public List<Anime> findAll() {
+        return animeData.getAnimes();
     }
 
     public Optional<Anime> findById(Long id) {
-        return ANIMES.stream().filter(anime -> anime.getId().equals(id)).findFirst();
+        return animeData.getAnimes().stream().filter(anime -> anime.getId().equals(id)).findFirst();
     }
 
     public List<Anime> findByName(String name) {
-        return name == null ? ANIMES :
-                ANIMES.stream().filter(anime -> anime.getName().equalsIgnoreCase(name)).toList();
+        log.info(connection);
+        return name == null ? animeData.getAnimes() :
+                animeData.getAnimes().stream().filter(anime -> anime.getName().equalsIgnoreCase(name)).toList();
     }
 
     public Anime save(Anime anime) {
-        ANIMES.add(anime);
+        animeData.getAnimes().add(anime);
         return anime;
     }
 
     public void delete(Anime anime) {
-        ANIMES.remove(anime);
+        animeData.getAnimes().remove(anime);
     }
 
     public void update(Anime anime) {
