@@ -74,8 +74,7 @@ public class ProducerController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-
-        log.info("Request received to delete the producer by id'{}'", id);
+        log.info("Request received to delete the producer by id '{}'", id);
 
         producerService.delete(id);
 
