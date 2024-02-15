@@ -143,7 +143,7 @@ class ProducerServiceTest {
     }
 
     @Test
-    @DisplayName("delete() Removes throw ResponseStatusException no producer is found")
+    @DisplayName("delete() throw ResponseStatusException no producer is found")
     @Order(8)
     void delete_ThrowsResponseStatusException_WhenNotFoundProducer() {
 

@@ -1,6 +1,5 @@
 package academy.devdojo.controller;
 
-import academy.devdojo.domain.Anime;
 import academy.devdojo.mapper.AnimeMapper;
 import academy.devdojo.request.AnimePostRequest;
 import academy.devdojo.request.AnimePutRequest;
@@ -14,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @RestController
@@ -39,13 +37,14 @@ public class AnimeController {
     }
 
     @GetMapping("{id}")
-    public Optional<Anime> findById(@PathVariable Long id) {
+    public ResponseEntity<AnimeGetResponse> findById(@PathVariable Long id) {
         log.info("Request received to find anime by id '{}'", id);
 
         var animeFound = animeService.findById(id);
 
-        return ResponseEntity.ok(animeFound).getBody();
+        var response = mapper.toAnimeGetResponse(animeFound);
 
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("filter")
