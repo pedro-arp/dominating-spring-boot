@@ -3,12 +3,16 @@ package academy.devdojo.controller;
 
 import academy.devdojo.domain.Producer;
 import academy.devdojo.repository.ProducerData;
+import academy.devdojo.repository.ProducerHardCodedRepository;
 import org.junit.jupiter.api.*;
+import org.mockito.ArgumentMatchers;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -27,6 +31,8 @@ class ProducerControllerTest {
     @MockBean
     private ProducerData producerData;
 
+    @SpyBean
+    private ProducerHardCodedRepository repository;
     private List<Producer> producers;
 
     @Autowired
@@ -53,10 +59,7 @@ class ProducerControllerTest {
     void findAll_ReturnsFoundProducers_WhenSuccessful() throws Exception {
         var response = readResourcesFile("get-producer-null-name-200.json");
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/v1/producers"))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().json(response));
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/producers")).andDo(MockMvcResultHandlers.print()).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.content().json(response));
     }
 
     @Test
@@ -67,24 +70,48 @@ class ProducerControllerTest {
 
         var response = readResourcesFile("get-producer-ufotable-name-200.json");
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/v1/producers").param("name", name))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().json(response));
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/producers").param("name", name)).andDo(MockMvcResultHandlers.print()).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.content().json(response));
 
     }
+
     @Test
-   @DisplayName("findAll() returns an empty list when no producer is found by name")
-   @Order(3)
-   void findAll_ReturnsEmptyList_WhenNoNameIsFound() throws Exception {
+    @DisplayName("findAll() returns an empty list when no producer is found by name")
+    @Order(3)
+    void findAll_ReturnsEmptyList_WhenNoNameIsFound() throws Exception {
         var name = "x";
 
         var response = readResourcesFile("get-producer-x-name-200.json");
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/v1/producers").param("name", name))
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/producers").param("name", name)).andDo(MockMvcResultHandlers.print()).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.content().json(response));
+
+    }
+
+    @Test
+    @DisplayName("save() creates a producer")
+    @Order(4)
+    void save_CreatesAProducer_WhenSuccessful() throws Exception {
+
+        var request = readResourcesFile("post-request-producer-200.json");
+        var response = readResourcesFile("post-response-producer-201.json");
+        var producerToSave = Producer.builder()
+                .id(99L)
+                .name("MAPPA")
+                .createdAt(LocalDateTime.now())
+                .build();
+
+        BDDMockito.when(repository.save(ArgumentMatchers.any())).thenReturn(producerToSave);
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post("/v1/producers/post")
+                        .content(request)
+                        .header("x-api-version", "v1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.content().json(response));
+
 
     }
 
