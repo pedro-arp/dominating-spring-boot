@@ -1,6 +1,5 @@
 package academy.devdojo.controller;
 
-import academy.devdojo.domain.Producer;
 import academy.devdojo.mapper.ProducerMapper;
 import academy.devdojo.request.ProducerPostRequest;
 import academy.devdojo.request.ProducerPutRequest;
@@ -15,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = {"v1/producers/", "v1/producers"})
@@ -38,26 +36,7 @@ public class ProducerController {
         return ResponseEntity.ok(producersGetResponses);
     }
 
-    @GetMapping("{id}")
-    public Optional<Producer> findById(@PathVariable Long id) {
-        log.info("Request received to found producer, param id: '{}'", id);
 
-        var producerFound = producerService.findById(id);
-
-        return ResponseEntity.ok(producerFound).getBody();
-    }
-
-    @GetMapping("filter")
-    public ResponseEntity<List<ProducerGetResponse>> findByName(@RequestParam(required = false) String name) {
-
-        log.info("Request received to list all producers, param name '{}'", name);
-
-        var producers = producerService.findAll(name);
-
-        var producerGetResponses = mapper.toProducerGetResponseList(producers);
-
-        return ResponseEntity.ok(producerGetResponses);
-    }
 
     @PostMapping(value = "post", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE, headers = "x-api-version=v1")
 
