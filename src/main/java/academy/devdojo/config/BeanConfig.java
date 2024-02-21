@@ -9,11 +9,12 @@ import test.outside.Connection;
 public class BeanConfig {
     @Bean(name = "MySQL")
     @Primary
-    public Connection connectionMySql(){
+    public Connection connectionMySql() {
         return new Connection("localhost::MySQL", "user", "password");
     }
+
     @Bean(name = "mongoDB")
-    public Connection connectionMongoDb(){
+    public Connection connectionMongoDb() {
         return new Connection("localhost::MongoDB", "user", "password");
     }
 

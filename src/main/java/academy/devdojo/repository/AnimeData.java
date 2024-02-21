@@ -6,12 +6,13 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Component
 @Getter
 public class AnimeData {
-    private  final List<Anime> animes = new ArrayList<>();
+    private final List<Anime> animes = new ArrayList<>();
 
-     {
+    {
         var anime1 = Anime.builder().id(1L).name("Naruto").build();
         var anime2 = Anime.builder().id(2L).name("Dragon Ball").build();
         var anime3 = Anime.builder().id(3L).name("One Piece").build();

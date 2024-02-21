@@ -25,7 +25,7 @@ public class AnimeController {
     private final AnimeService animeService;
 
     @GetMapping
-    public ResponseEntity<List<AnimeGetResponse>> list(@RequestParam(required = false) String name) {
+    public ResponseEntity<List<AnimeGetResponse>> findAll(@RequestParam(required = false) String name) {
 
         log.info("Request received to list all animes");
 
@@ -38,8 +38,7 @@ public class AnimeController {
 
     @GetMapping("{id}")
     public ResponseEntity<AnimeGetResponse> findById(@PathVariable Long id) {
-        log.info("Request received to find anime by id '{}'", id);
-
+        log.info("Request received find anime by id '{}'", id);
         var animeFound = animeService.findById(id);
 
         var response = mapper.toAnimeGetResponse(animeFound);
@@ -47,15 +46,6 @@ public class AnimeController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("filter")
-    public ResponseEntity<List<AnimeGetResponse>> findByName(@RequestParam(required = false) String name) {
-        log.info("Request received to list all animes, param name '{}'", name);
-        var animes = animeService.findAll(name);
-
-        var animeGetResponses = mapper.toAnimeGetResponseList(animes);
-
-        return ResponseEntity.ok(animeGetResponses);
-    }
 
     @PostMapping("post")
     public ResponseEntity<AnimePostResponse> save(@RequestBody AnimePostRequest request) {

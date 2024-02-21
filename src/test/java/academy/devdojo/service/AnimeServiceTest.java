@@ -104,7 +104,7 @@ class AnimeServiceTest {
 
         BDDMockito.when(repository.findById(id)).thenReturn(Optional.empty());
 
-        Assertions.assertThatException().isThrownBy(() ->service.findById(id)).isInstanceOf(ResponseStatusException.class);
+        Assertions.assertThatException().isThrownBy(() -> service.findById(id)).isInstanceOf(ResponseStatusException.class);
 
     }
 

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class OutsideController {
     @GetMapping("test")
-    public String test(){
+    public String test() {
         return "Testing outside controller academy.devdojo";
     }
 }
