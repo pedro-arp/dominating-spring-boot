@@ -1,5 +1,6 @@
 package academy.devdojo.repository;
 
+import academy.devdojo.commons.ProducerUtils;
 import academy.devdojo.domain.Producer;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
@@ -9,31 +10,25 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 
 @ExtendWith(MockitoExtension.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ProducerHardCodedRepositoryTest {
-    @InjectMocks
-    private ProducerHardCodedRepository repository;
-    @Mock
-    private ProducerData producerData;
 
     private List<Producer> producers;
+    @Mock
+    private ProducerData producerData;
+    @InjectMocks
+    private ProducerUtils producerUtils;
+    @InjectMocks
+    private ProducerHardCodedRepository repository;
 
     @BeforeEach
     void init() {
 
-        var producer1 = Producer.builder().id(1L).name("Ufotable").createdAt(LocalDateTime.now()).build();
-
-        var producer2 = Producer.builder().id(2L).name("Wit Studio").createdAt(LocalDateTime.now()).build();
-
-        var producer3 = Producer.builder().id(3L).name("Studio Ghibli").createdAt(LocalDateTime.now()).build();
-
-        producers = new ArrayList<>(List.of(producer1, producer2, producer3));
+        producers = producerUtils.newProducerList();
 
         BDDMockito.when(producerData.getProducers()).thenReturn(producers);
     }
@@ -93,7 +88,7 @@ class ProducerHardCodedRepositoryTest {
     @Order(6)
     void save_CreatesProducer_WhenSuccessful() {
 
-        var producerToSave = Producer.builder().id(4L).name("Test").createdAt(LocalDateTime.now()).build();
+        var producerToSave = producerUtils.newProducerToSave();
 
         var producer = repository.save(producerToSave);
 

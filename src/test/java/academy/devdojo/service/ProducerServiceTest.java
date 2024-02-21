@@ -1,5 +1,6 @@
 package academy.devdojo.service;
 
+import academy.devdojo.commons.ProducerUtils;
 import academy.devdojo.domain.Producer;
 import academy.devdojo.repository.ProducerHardCodedRepository;
 import org.assertj.core.api.Assertions;
@@ -11,8 +12,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -20,23 +19,18 @@ import java.util.Optional;
 @ExtendWith(MockitoExtension.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ProducerServiceTest {
+    private List<Producer> producers;
     @InjectMocks
     private ProducerService service;
+    @InjectMocks
+    private ProducerUtils producerUtils;
     @Mock
     private ProducerHardCodedRepository repository;
-    private List<Producer> producers;
 
     @BeforeEach
     void init() {
 
-        var producer1 = Producer.builder().id(1L).name("Ufotable").createdAt(LocalDateTime.now()).build();
-
-        var producer2 = Producer.builder().id(2L).name("Wit Studio").createdAt(LocalDateTime.now()).build();
-
-        var producer3 = Producer.builder().id(3L).name("Studio Ghibli").createdAt(LocalDateTime.now()).build();
-
-        producers = new ArrayList<>(List.of(producer1, producer2, producer3));
-
+        producers = producerUtils.newProducerList();
     }
 
     @Test
@@ -115,7 +109,7 @@ class ProducerServiceTest {
     @Order(6)
     void save_CreateProducer_WhenSuccessful() {
 
-        var producerToSave = Producer.builder().id(4L).name("Test").createdAt(LocalDateTime.now()).build();
+        var producerToSave = producerUtils.newProducerToSave();
 
         BDDMockito.when(repository.save(producerToSave)).thenReturn(producerToSave);
 
