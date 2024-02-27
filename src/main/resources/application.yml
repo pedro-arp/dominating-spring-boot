@@ -1,4 +1,8 @@
 spring:
+## Active profiles : --spring.profiles.active=mongo     or:
+#  profiles:
+#    active:
+#      - mongo
   application:
     name: anime-service
 
