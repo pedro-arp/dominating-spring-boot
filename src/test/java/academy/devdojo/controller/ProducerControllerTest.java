@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -20,6 +21,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @WebMvcTest(ProducerController.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@ActiveProfiles("test")
 class ProducerControllerTest {
 
     private static final String URL = "/v1/producers";
@@ -39,6 +41,7 @@ class ProducerControllerTest {
     @SpyBean
     private ProducerHardCodedRepository repository;
 
+
     @BeforeEach
     void init() {
 
@@ -47,6 +50,7 @@ class ProducerControllerTest {
 
 
     @Test
+
     @DisplayName("findAll() returns a list with found producers when name is not null")
     @Order(1)
     void findAll_ReturnsFoundProducers_WhenSuccessful() throws Exception {
