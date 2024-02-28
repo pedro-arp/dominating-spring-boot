@@ -1,0 +1,5 @@
+database:
+  url: test222:3306
+  username: ${LOCAL_USERNAME:}
+  password: ${LOCAL_PASSWORD:}
+

@@ -4,6 +4,5 @@ spring:
       - test
 database:
   url: test:3306
-  username: test
-  password: devdojo
+
 
