@@ -1,15 +1,15 @@
 spring:
-## Active profiles : --spring.profiles.active=mongo     or:
-#  profiles:
-#    active:
-#      - mongo
+  ## Active profiles : --spring.profiles.active=mongo     or:
+  #  profiles:
+  #    active:
+  #      - mongo
   application:
     name: anime-service
 
 server:
   port: 8080
   servlet:
-#    context-path: /${spring.application.name}
+    #    context-path: /${spring.application.name}
     context-path: /
 
 logging:

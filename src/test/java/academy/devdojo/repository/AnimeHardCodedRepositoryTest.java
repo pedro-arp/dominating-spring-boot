@@ -2,6 +2,7 @@ package academy.devdojo.repository;
 
 import academy.devdojo.commons.AnimeUtils;
 import academy.devdojo.domain.Anime;
+import academy.devdojo.mapper.AnimeMapperImpl;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,10 +10,13 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.annotation.Import;
 
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
+@Import(AnimeMapperImpl.class)
+
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class AnimeHardCodedRepositoryTest {
 

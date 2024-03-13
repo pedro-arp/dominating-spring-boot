@@ -1,4 +1,5 @@
 # user-service
+
 Exercise 12 - User Service - Dominating Spring Boot
 
 Create another microservice called user-service, this microservice should have an

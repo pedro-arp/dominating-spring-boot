@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @ToString
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Producer {
+
     @EqualsAndHashCode.Include
     private Long id;
     private String name;
