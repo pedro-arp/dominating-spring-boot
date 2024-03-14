@@ -87,7 +87,7 @@ class AnimeControllerTest {
     }
 
     @Test
-    @DisplayName("findById() Return ResponseStatusException when anime id does not exists")
+    @DisplayName("findById() Return NotFound when anime id does not exists")
     @Order(3)
     public void findById_ReturnOptionalEmpty_WhenIdDoesNotExists() throws Exception {
 
@@ -166,9 +166,9 @@ class AnimeControllerTest {
     }
 
     @Test
-    @DisplayName("update() Updates ResponseStatusException when anime is not found")
+    @DisplayName("update() Updates NotFound when anime is not found")
     @Order(8)
-    public void update_ThrowsResponseStatusException_WhenNotFoundAnime() throws Exception {
+    public void update_ThrowsNotFound_WhenNotFoundAnime() throws Exception {
 
         var request = fileUtils.readResourcesFile("anime/put-request-anime-404.json");
 
@@ -192,9 +192,9 @@ class AnimeControllerTest {
     }
 
     @Test
-    @DisplayName("delete() throw ResponseStatusException no anime is found")
+    @DisplayName("delete() throw NotFound no anime is found")
     @Order(10)
-    public void delete_ThrowsResponseStatusException_WhenNotFoundAnime() throws Exception {
+    public void delete_ThrowsNotFound_WhenNotFoundAnime() throws Exception {
 
         mockMvc.perform(MockMvcRequestBuilders.delete(URL + "/{id}", 9999L))
                 .andDo(MockMvcResultHandlers.print())
