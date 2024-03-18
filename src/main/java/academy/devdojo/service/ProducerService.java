@@ -30,13 +30,13 @@ public class ProducerService {
 
     public void delete(Long id) {
         var producer = findById(id)
-                .orElseThrow(() -> new NotFoundException("Producer not found to be deleted"));
+                .orElseThrow(() -> new NotFoundException("Producer not found"));
         repository.delete(producer);
     }
 
     public void update(Producer producerToUpdate) {
         var producer = findById(producerToUpdate.getId())
-                .orElseThrow(() -> new NotFoundException("Producer not found to be updated"));
+                .orElseThrow(() -> new NotFoundException("Producer not found"));
         producerToUpdate.setCreatedAt(producer.getCreatedAt());
         repository.update(producerToUpdate);
     }

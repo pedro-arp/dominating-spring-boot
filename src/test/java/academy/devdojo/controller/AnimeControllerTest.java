@@ -91,10 +91,12 @@ class AnimeControllerTest {
     @Order(3)
     public void findById_ReturnOptionalEmpty_WhenIdDoesNotExists() throws Exception {
 
+        var response = fileUtils.readResourcesFile("anime/anime-response-not-found-error-404.json");
+
         mockMvc.perform(MockMvcRequestBuilders.get(URL + "/{id}", 999L))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
-                .andExpect(MockMvcResultMatchers.status().reason("Anime not found"));
+                .andExpect(MockMvcResultMatchers.content().json(response));
 
 
     }
@@ -170,12 +172,14 @@ class AnimeControllerTest {
     @Order(8)
     public void update_ThrowsNotFound_WhenNotFoundAnime() throws Exception {
 
+        var response = fileUtils.readResourcesFile("anime/anime-response-not-found-error-404.json");
+
         var request = fileUtils.readResourcesFile("anime/put-request-anime-404.json");
 
         mockMvc.perform(MockMvcRequestBuilders.put(URL).content(request).contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
-                .andExpect(MockMvcResultMatchers.status().reason("Anime not found"));
+                .andExpect(MockMvcResultMatchers.content().json(response));
 
     }
 
@@ -196,10 +200,12 @@ class AnimeControllerTest {
     @Order(10)
     public void delete_ThrowsNotFound_WhenNotFoundAnime() throws Exception {
 
+        var response = fileUtils.readResourcesFile("anime/anime-response-not-found-error-404.json");
+
         mockMvc.perform(MockMvcRequestBuilders.delete(URL + "/{id}", 9999L))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
-                .andExpect(MockMvcResultMatchers.status().reason("Anime not found"));
+                .andExpect(MockMvcResultMatchers.content().json(response));
 
     }
 
