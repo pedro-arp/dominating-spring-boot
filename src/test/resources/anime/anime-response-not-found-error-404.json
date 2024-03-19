@@ -1,1 +1,4 @@
-{"status":404,"message":"404 NOT_FOUND \"Anime not found\""}
+{
+  "status": 404,
+  "message": "404 NOT_FOUND \"Anime not found\""
+}
