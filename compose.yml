@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+
+  mysql:
+    image: mysql:8.0.33
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_USER: pedro
+      MYSQL_PASSWORD: devdojo
+    ports:
+      - "3306:3306"
+    volumes:
+     - devdojo-db:/var/lib/mysql
+volumes:
+  devdojo-db:
