@@ -9,7 +9,7 @@
 
     <modules>
         <module>user-service</module>
-        <module>dominating-spring-boot</module>
+        <module>anime-service</module>
         <module>commons-core</module>
     </modules>
 
