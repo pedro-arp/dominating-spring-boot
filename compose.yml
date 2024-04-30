@@ -11,8 +11,6 @@ services:
       MYSQL_PASSWORD: ${REGULAR_PASSWORD}
     ports:
       - "3306:3306"
-      - "3307:3306"
-
     volumes:
       - devdojo-db:/var/lib/mysql
 volumes:
