@@ -4,6 +4,7 @@ services:
 
   mysql:
     image: mysql:8.0.33
+    container_name: mysql
     environment:
       MYSQL_ROOT_PASSWORD: ${ROOT_PASSWORD}
       MYSQL_USER: ${REGULAR_USER}
@@ -11,6 +12,6 @@ services:
     ports:
       - "3306:3306"
     volumes:
-     - devdojo-db:/var/lib/mysql
+      - devdojo-db:/var/lib/mysql
 volumes:
   devdojo-db:
