@@ -16,7 +16,7 @@
     <properties>
         <java.version>17</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
-        <maven.compilertarget>${java.version}</maven.compilertarget>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
     </properties>
     <build>
