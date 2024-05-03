@@ -1,0 +1,17 @@
+server:
+  port: 8080
+  error:
+    include-stacktrace: never
+
+spring:
+  application:
+    name: anime-service
+  datasource:
+    url: jdbc:mysql://localhost:3307/anime-service?useTimezone=true&serverTimezone=UTC&createDatabaseIfNotExist=true
+    username: ${ROOT_USER:root}
+    password: ${ROOT_PASSWORD:example}
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update

@@ -1,0 +1,45 @@
+{
+  "content": [
+    {
+      "id": 1,
+      "name": "One Punch Man"
+    },
+    {
+      "id": 2,
+      "name": "Jujutsu Kaisen"
+    },
+    {
+      "id": 3,
+      "name": "Bleach"
+    },
+    {
+      "id": 4,
+      "name": "Pokemon"
+    }
+  ],
+  "pageable": {
+    "sort": {
+      "empty": true,
+      "sorted": false,
+      "unsorted": true
+    },
+    "offset": 0,
+    "pageNumber": 0,
+    "pageSize": 4,
+    "unpaged": false,
+    "paged": true
+  },
+  "last": true,
+  "totalPages": 1,
+  "totalElements": 4,
+  "size": 4,
+  "number": 0,
+  "sort": {
+    "empty": true,
+    "sorted": false,
+    "unsorted": true
+  },
+  "first": true,
+  "numberOfElements": 4,
+  "empty": false
+}

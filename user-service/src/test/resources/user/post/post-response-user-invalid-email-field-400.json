@@ -1,0 +1,42 @@
+{
+  "timestamp": "2024-04-30T11:51:50.549+00:00",
+  "status": 400,
+  "error": "Bad Request",
+  "message": "Validation failed for object='userPostRequest'. Error count: 1",
+  "errors": [
+    {
+      "codes": [
+        "Email.userPostRequest.email",
+        "Email.email",
+        "Email.java.lang.String",
+        "Email"
+      ],
+      "arguments": [
+        {
+          "codes": [
+            "userPostRequest.email",
+            "email"
+          ],
+          "arguments": null,
+          "defaultMessage": "email",
+          "code": "email"
+        },
+        [],
+        {
+          "arguments": null,
+          "defaultMessage": "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$",
+          "codes": [
+            "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"
+          ]
+        }
+      ],
+      "defaultMessage": "The email format is not valid",
+      "objectName": "userPostRequest",
+      "field": "email",
+      "rejectedValue": "testing@",
+      "bindingFailure": false,
+      "code": "Email"
+    }
+  ],
+  "path": "/v1/users"
+}

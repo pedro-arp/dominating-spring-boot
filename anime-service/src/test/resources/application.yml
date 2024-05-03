@@ -1,0 +1,12 @@
+spring:
+  profiles:
+    active:
+      - test
+database:
+  url: test:3306
+
+logging:
+  level:
+    root: INFO
+
+

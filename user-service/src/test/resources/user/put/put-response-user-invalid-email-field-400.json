@@ -1,0 +1,42 @@
+{
+  "timestamp": "2024-04-30T12:10:28.629+00:00",
+  "status": 400,
+  "error": "Bad Request",
+  "message": "Validation failed for object='userPutRequest'. Error count: 1",
+  "errors": [
+    {
+      "codes": [
+        "Email.userPutRequest.email",
+        "Email.email",
+        "Email.java.lang.String",
+        "Email"
+      ],
+      "arguments": [
+        {
+          "codes": [
+            "userPutRequest.email",
+            "email"
+          ],
+          "arguments": null,
+          "defaultMessage": "email",
+          "code": "email"
+        },
+        [],
+        {
+          "arguments": null,
+          "codes": [
+            "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"
+          ],
+          "defaultMessage": "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"
+        }
+      ],
+      "defaultMessage": "The email format is not valid",
+      "objectName": "userPutRequest",
+      "field": "email",
+      "rejectedValue": "updating@error",
+      "bindingFailure": false,
+      "code": "Email"
+    }
+  ],
+  "path": "/v1/users"
+}
