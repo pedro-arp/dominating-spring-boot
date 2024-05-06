@@ -24,7 +24,8 @@
         <commons-core.version>0.0.2-SNAPSHOT</commons-core.version>
         <springdoc-openapi-starter-webmvc-ui.version>2.1.0</springdoc-openapi-starter-webmvc-ui.version>
         <rest-assured.version>5.3.1</rest-assured.version>
-        <json-unit-assertj.version>3.0.0</json-unit-assertj.version></properties>
+        <json-unit-assertj.version>3.0.0</json-unit-assertj.version>
+    </properties>
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -188,5 +189,43 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>integration-test</id> <!--mvn clean test "&&" mvn clean verify -P integration-test-->
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>${maven-surefire-plugin.version}</version>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${maven-failsafe-plugin.version}</version>
+                        <configuration>
+                            <argLine>-Dspring.profiles.active=test</argLine>
+                            <includes>
+                                <include>**/*IT.java</include>
+                            </includes>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>
