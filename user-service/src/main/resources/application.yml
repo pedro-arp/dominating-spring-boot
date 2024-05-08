@@ -6,6 +6,10 @@ server:
 spring:
   application:
     name: user-service
+  security:
+    user:
+      name: user
+      password: devdojo
   datasource:
     url: jdbc:mysql://localhost:3306/user-service?useTimezone=true&serverTimezone=UTC&createDatabaseIfNotExist=true
     username: ${ROOT_USER:root}
