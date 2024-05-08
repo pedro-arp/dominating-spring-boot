@@ -6,10 +6,10 @@ server:
 spring:
   application:
     name: user-service
-  security:
-    user:
-      name: user
-      password: devdojo
+  #  security:
+  #    user:
+  #      name: user
+  #      password: devdojo
   datasource:
     url: jdbc:mysql://localhost:3306/user-service?useTimezone=true&serverTimezone=UTC&createDatabaseIfNotExist=true
     username: ${ROOT_USER:root}
@@ -19,3 +19,12 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+
+user:
+  username: ${USER_USERNAME:pedro}
+  password: ${USER_PASSWORD:augusto}
+admin:
+  username: ${ADMIN_USERNAME:bianca}
+  password: ${ADMIN_PASSWORD:violante}
+
+
