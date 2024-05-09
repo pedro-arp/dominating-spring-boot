@@ -4,7 +4,9 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -18,6 +20,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @Configuration
 @Log4j2
+@EnableMethodSecurity
 public class SecurityConfig {
 
     private static final String[] WHITE_LIST = {"/swagger-ui/index.html", "v3/api-docs/**", "/swagger-ui/**", "/csrf"};
@@ -51,7 +54,12 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.authorizeHttpRequests(auth -> auth.requestMatchers(WHITE_LIST).permitAll().anyRequest().authenticated())
+        return http.authorizeHttpRequests(auth -> auth
+                        .requestMatchers(WHITE_LIST).permitAll()
+                        //.requestMatchers(HttpMethod.GET, "v1/users/list").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "v1/users/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "v1/users/**").hasRole("ADMIN")
+                        .anyRequest().authenticated())
                 .csrf(AbstractHttpConfigurer::disable)
                 //.csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 //.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()))
