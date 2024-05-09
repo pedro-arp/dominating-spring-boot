@@ -4,6 +4,7 @@ import academy.devdojo.mapper.UserProfileMapper;
 import academy.devdojo.response.UserProfileGetResponse;
 import academy.devdojo.response.UserProfileUserGetResponse;
 import academy.devdojo.service.UserProfileService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import java.util.List;
 @RequestMapping(path = {"v1/user-profiles", "v1/user-profiles/"})
 @RequiredArgsConstructor
 @Log4j2
+@SecurityRequirement(name = "basicAuth")
 public class UserProfileController {
 
     private final UserProfileService service;
