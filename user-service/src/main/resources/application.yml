@@ -2,7 +2,6 @@ server:
   port: 8090
   error:
     include-stacktrace: never
-
 spring:
   application:
     name: user-service
@@ -26,5 +25,7 @@ user:
 admin:
   username: ${ADMIN_USERNAME:bianca}
   password: ${ADMIN_PASSWORD:violante}
-
+logging:
+  level:
+    org.springframework.security: debug
 
