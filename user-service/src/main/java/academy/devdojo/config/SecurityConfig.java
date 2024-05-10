@@ -40,19 +40,18 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.authorizeHttpRequests(auth -> auth
-                        .requestMatchers(WHITE_LIST).permitAll()
-                        .requestMatchers(HttpMethod.POST, "v1/users").permitAll()
-                        //.requestMatchers(HttpMethod.GET, "v1/users/list").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "v1/users/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "v1/users/**").hasRole("ADMIN")
-                        .anyRequest().authenticated())
+        return http
                 .csrf(AbstractHttpConfigurer::disable)
-                //.csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                //.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()))
+//                .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+//                        .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()))
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(WHITE_LIST).permitAll()
+                        //.requestMatchers(HttpMethod.GET, "v1/users/list").hasAuthority("ADMIN") -> present in Controller
+                        .requestMatchers(HttpMethod.POST, "v1/users").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "v1/users/*").hasAuthority("ADMIN")
+                        .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .build();
     }
-
 
 }

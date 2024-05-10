@@ -18,13 +18,12 @@ import java.util.List;
 public interface UserMapper {
 
     @Mapping(target = "roles", constant = "USER")
-
     @Mapping(target = "password", qualifiedBy = EncodedMapping.class)
-
     User toUser(UserPostRequest request);
 
     UserPostResponse toUserPostResponse(User user);
 
+    @Mapping(target = "password", qualifiedBy = EncodedMapping.class)
     User toUser(UserPutRequest request);
 
     UserGetResponse toUserGetResponse(User user);

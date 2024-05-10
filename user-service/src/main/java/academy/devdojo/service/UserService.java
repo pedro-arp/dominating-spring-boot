@@ -24,6 +24,10 @@ public class UserService {
         return repository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
     }
 
+    public User findByFirstName(String firstName) {
+        return repository.findByFirstName(firstName).orElseThrow(() -> new NotFoundException("User not found"));
+    }
+
     @Transactional
     public User save(User user) {
         assertEmailIsUnique(user.getEmail(), user.getId());
@@ -38,17 +42,19 @@ public class UserService {
         repository.delete(userToDelete);
     }
 
-    public void update(User userToUpdate) {
+    public void update(User partialUserToUpdate) {
 
-        assertUserExists(userToUpdate);
+        var savedUser = findById(partialUserToUpdate.getId());
 
-        assertEmailIsUnique(userToUpdate.getEmail(), userToUpdate.getId());
+        assertEmailIsUnique(partialUserToUpdate.getEmail(), partialUserToUpdate.getId());
+
+        var password = partialUserToUpdate.getPassword() == null ? savedUser.getPassword() : partialUserToUpdate.getPassword();
+
+        var roles = savedUser.getRoles();
+
+        var userToUpdate = partialUserToUpdate.withRoles(roles).withPassword(password);
 
         repository.save(userToUpdate);
-    }
-
-    private void assertUserExists(User user) {
-        findById(user.getId());
     }
 
     private void assertEmailIsUnique(String email, Long userId) {
@@ -60,8 +66,4 @@ public class UserService {
                 });
     }
 
-
-    public User findByFirstName(String firstName) {
-        return repository.findByFirstName(firstName).orElseThrow(() -> new NotFoundException("User not found"));
-    }
 }

@@ -40,7 +40,7 @@ public class UserController {
 
 
     @GetMapping("list")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
 
     @Operation(summary = "Get All Users", description = "Get all users available in the system",
             responses = {
