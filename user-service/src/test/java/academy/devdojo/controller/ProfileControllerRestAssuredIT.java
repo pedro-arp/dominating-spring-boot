@@ -29,8 +29,10 @@ import java.util.stream.Stream;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = RestAssuredConfig.class)
 public class ProfileControllerRestAssuredIT extends IntegrationTestContainers {
     private static final String URL = "/v1/profiles";
+
     @Autowired
     private FileUtils fileUtils;
+
     @LocalServerPort
     private int port;
 
