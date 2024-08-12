@@ -2,7 +2,9 @@ package academy.devdojo.controller;
 
 import academy.devdojo.commons.FileUtils;
 import academy.devdojo.commons.UserUtils;
+import academy.devdojo.config.SecurityConfig;
 import academy.devdojo.exception.NotFoundException;
+import academy.devdojo.mapper.PasswordEncoderMapper;
 import academy.devdojo.mapper.UserMapperImpl;
 import academy.devdojo.service.UserService;
 import org.assertj.core.api.Assertions;
@@ -19,6 +21,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -29,7 +32,8 @@ import java.util.List;
 import java.util.stream.Stream;
 
 @WebMvcTest(UserController.class)
-@Import({UserMapperImpl.class, FileUtils.class, UserUtils.class})
+@Import({UserMapperImpl.class, FileUtils.class, UserUtils.class, UserController.class, SecurityConfig.class})
+@WithMockUser(roles = "USER")
 class UserControllerTest {
     private static final String URL = "/v1/users";
 
@@ -41,6 +45,9 @@ class UserControllerTest {
     @MockBean
     private UserService service;
 
+    @MockBean
+    private PasswordEncoderMapper passwordEncoderMapper;
+
     @Autowired
     private UserUtils userUtils;
 
@@ -50,6 +57,7 @@ class UserControllerTest {
     @Test
     @DisplayName("findAll() must return a list of all users")
     @Order(1)
+    @WithMockUser(authorities = "ADMIN")
     public void findAll_ReturnUsers_WhenSuccessful() throws Exception {
 
         var response = fileUtils.readResourceFile("user/get/get-all-users-200.json");
@@ -66,7 +74,7 @@ class UserControllerTest {
     @Test
     @DisplayName("findAll() returns empty list when no users are found")
     @Order(2)
-
+    @WithMockUser(authorities = "ADMIN")
     public void findAll_ReturnsEmptyList_WhenNoUsersFound() throws Exception {
 
         var response = fileUtils.readResourceFile("user/get/get-all-users-is-empty-list-200.json");
@@ -117,6 +125,7 @@ class UserControllerTest {
     @Test
     @DisplayName("save() Create User")
     @Order(5)
+    @WithMockUser(authorities = "ADMIN")
     public void save_CreateUser_WhenSuccessful() throws Exception {
 
         var request = fileUtils.readResourceFile("user/post/post-request-user-201.json");
@@ -235,7 +244,7 @@ class UserControllerTest {
 
     private static Stream<Arguments> putUserBadRequestSourceFiles() {
 
-        var firstNameError = "The field 'fistName' is required";
+        var firstNameError = "The field 'firstName' is required";
         var lastNameError = "The field 'lastName' is required";
         var emailNameError = "The email format is not valid";
 

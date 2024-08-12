@@ -3,6 +3,7 @@ package academy.devdojo.controller;
 
 import academy.devdojo.commons.ProfileUtils;
 import academy.devdojo.config.IntegrationTestContainers;
+import academy.devdojo.config.TestRestTemplateConfig;
 import academy.devdojo.response.ProfileGetResponse;
 import academy.devdojo.response.ProfilePostResponse;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +21,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = TestRestTemplateConfig.class)
 public class ProfileControllerIT extends IntegrationTestContainers {
     private static final String URL = "/v1/profiles";
 
