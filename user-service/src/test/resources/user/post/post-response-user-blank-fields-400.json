@@ -1,41 +1,33 @@
 {
-  "timestamp": "2024-04-30T11:51:47.754+00:00",
+  "timestamp": "2024-08-14T13:40:38.299+00:00",
   "status": 400,
   "error": "Bad Request",
-  "message": "Validation failed for object='userPostRequest'. Error count: 3",
+  "message": "Validation failed for object='userPostRequest'. Error count: 4",
   "errors": [
     {
       "codes": [
-        "Email.userPostRequest.email",
-        "Email.email",
-        "Email.java.lang.String",
-        "Email"
+        "NotBlank.userPostRequest.firstName",
+        "NotBlank.firstName",
+        "NotBlank.java.lang.String",
+        "NotBlank"
       ],
       "arguments": [
         {
           "codes": [
-            "userPostRequest.email",
-            "email"
+            "userPostRequest.firstName",
+            "firstName"
           ],
           "arguments": null,
-          "defaultMessage": "email",
-          "code": "email"
-        },
-        [],
-        {
-          "arguments": null,
-          "defaultMessage": "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$",
-          "codes": [
-            "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"
-          ]
+          "defaultMessage": "firstName",
+          "code": "firstName"
         }
       ],
-      "defaultMessage": "The email format is not valid",
+      "defaultMessage": "The field 'fistName' is required",
       "objectName": "userPostRequest",
-      "field": "email",
+      "field": "firstName",
       "rejectedValue": "   ",
       "bindingFailure": false,
-      "code": "Email"
+      "code": "NotBlank"
     },
     {
       "codes": [
@@ -64,28 +56,63 @@
     },
     {
       "codes": [
-        "NotBlank.userPostRequest.firstName",
-        "NotBlank.firstName",
+        "NotBlank.userPostRequest.password",
+        "NotBlank.password",
         "NotBlank.java.lang.String",
         "NotBlank"
       ],
       "arguments": [
         {
           "codes": [
-            "userPostRequest.firstName",
-            "firstName"
+            "userPostRequest.password",
+            "password"
           ],
           "arguments": null,
-          "defaultMessage": "firstName",
-          "code": "firstName"
+          "defaultMessage": "password",
+          "code": "password"
         }
       ],
-      "defaultMessage": "The field 'fistName' is required",
+      "defaultMessage": "The field 'password' is required",
       "objectName": "userPostRequest",
-      "field": "firstName",
-      "rejectedValue": "   ",
+      "field": "password",
+      "rejectedValue": "  ",
       "bindingFailure": false,
       "code": "NotBlank"
+    },
+    {
+      "codes": [
+        "Email.userPostRequest.email",
+        "Email.email",
+        "Email.java.lang.String",
+        "Email"
+      ],
+      "arguments": [
+        {
+          "codes": [
+            "userPostRequest.email",
+            "email"
+          ],
+          "arguments": null,
+          "defaultMessage": "email",
+          "code": "email"
+        },
+        [
+
+        ],
+        {
+          "arguments": null,
+          "defaultMessage": "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$",
+          "codes": [
+            "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"
+          ]
+        }
+      ],
+      "defaultMessage": "The email format is not valid",
+      "objectName": "userPostRequest",
+      "field": "email",
+      "rejectedValue": "   ",
+      "bindingFailure": false,
+      "code": "Email"
     }
   ],
   "path": "/v1/users"

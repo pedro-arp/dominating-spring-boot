@@ -4,6 +4,7 @@ import academy.devdojo.commons.FileUtils;
 import academy.devdojo.commons.UserUtils;
 import academy.devdojo.config.IntegrationTestContainers;
 import academy.devdojo.config.RestAssuredConfig;
+import academy.devdojo.exception.NotFoundException;
 import academy.devdojo.repository.UserRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -22,6 +23,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.util.Collections;
@@ -41,6 +43,9 @@ class UserControllerRestAssuredIT extends IntegrationTestContainers {
     @Autowired
     @SpyBean
     private UserRepository repository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     @Qualifier(value = "requestSpecificationRegularUser")
@@ -201,11 +206,19 @@ class UserControllerRestAssuredIT extends IntegrationTestContainers {
 
         Assertions.assertThat(users).hasSize(1);
 
+        var user = users.get(0);
+
         request = request.replace("1", users.get(0).getId().toString());
 
         RestAssured.given().contentType(ContentType.JSON).accept(ContentType.JSON).log().all().body(request).when().put(URL).then().log().all().statusCode(HttpStatus.NO_CONTENT.value());
 
+        var updatedUser = repository.findById(user.getId()).orElseThrow(() -> new NotFoundException("User Not Found"));
+
+        var password = updatedUser.getPassword();
+
+        Assertions.assertThat(passwordEncoder.matches("test", password));
     }
+
 
     @Test
     @DisplayName("update() Update User throws Exception when User not Found")
