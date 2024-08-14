@@ -60,7 +60,7 @@ class UserControllerTest {
     @WithMockUser(authorities = "ADMIN")
     public void findAll_ReturnUsers_WhenSuccessful() throws Exception {
 
-        var response = fileUtils.readResourceFile("user/get/get-all-users-200.json");
+        var response = fileUtils.readResourceFile("user/get/get-all-three-users-200.json");
 
         BDDMockito.when(service.findAll()).thenReturn(userUtils.newUserList());
 
