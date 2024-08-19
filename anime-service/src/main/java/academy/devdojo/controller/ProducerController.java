@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = {"v1/producers/", "v1/producers"})
+@RequestMapping(path = {"v1/producers/"})
 @Log4j2
 @RequiredArgsConstructor
 @SecurityRequirement(name = "basicAuth")
