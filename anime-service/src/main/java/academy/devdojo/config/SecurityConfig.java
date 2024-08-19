@@ -28,7 +28,7 @@ public class SecurityConfig {
         return new InMemoryUserDetailsManager(user);
     }
 
-    private static final String[] WHITE_LIST = {"/swagger-ui.html", "/swagger-ui/**", "/v3/**"};
+    private static final String[] WHITE_LIST = {"/swagger-ui.html", "/swagger-ui/**", "/v3**"};
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http)
