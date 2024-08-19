@@ -3,6 +3,7 @@ package academy.devdojo.controller;
 
 import academy.devdojo.commons.AnimeUtils;
 import academy.devdojo.commons.FileUtils;
+import academy.devdojo.config.SecurityConfig;
 import academy.devdojo.exception.NotFoundException;
 import academy.devdojo.mapper.AnimeMapperImpl;
 import academy.devdojo.service.AnimeService;
@@ -30,11 +31,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static academy.devdojo.commons.Constants.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
+
 @WebMvcTest(AnimeController.class)
-@Import({AnimeMapperImpl.class, FileUtils.class, AnimeUtils.class, AnimeService.class})
+@Import({AnimeMapperImpl.class, FileUtils.class, AnimeUtils.class, AnimeService.class, SecurityConfig.class})
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class AnimeControllerTest {
-
     private static final String URL = "/v1/animes";
     private static final Long ID_FOUND = 3L;
     private static final Long ID_NOT_FOUND = 1000L;
@@ -52,7 +55,6 @@ class AnimeControllerTest {
     @MockBean
     private AnimeService service;
 
-
     @Test
     @DisplayName("list() Return all animes")
     @Order(1)
@@ -62,7 +64,7 @@ class AnimeControllerTest {
 
         BDDMockito.when(service.findAll()).thenReturn(animeUtils.newAnimeList());
 
-        mockMvc.perform(MockMvcRequestBuilders.get(URL + "/list"))
+        mockMvc.perform(MockMvcRequestBuilders.get(URL + "/list").with(httpBasic(USERNAME, PASSWORD)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(response));
@@ -84,7 +86,7 @@ class AnimeControllerTest {
 
         BDDMockito.when(service.findAll(BDDMockito.any(Pageable.class))).thenReturn(pagedAnimes);
 
-        mockMvc.perform(MockMvcRequestBuilders.get(URL + "/paginated"))
+        mockMvc.perform(MockMvcRequestBuilders.get(URL + "/paginated").with(httpBasic(USERNAME, PASSWORD)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(response));
@@ -102,7 +104,7 @@ class AnimeControllerTest {
 
         BDDMockito.when(service.findAll()).thenReturn(Collections.emptyList());
 
-        mockMvc.perform(MockMvcRequestBuilders.get(URL + "/list").param("name", INVALID_NAME))
+        mockMvc.perform(MockMvcRequestBuilders.get(URL + "/list").with(httpBasic(USERNAME, PASSWORD)).param("name", INVALID_NAME))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(response));
@@ -120,7 +122,7 @@ class AnimeControllerTest {
 
         BDDMockito.when(service.findById(ID_FOUND)).thenReturn(animeFound);
 
-        mockMvc.perform(MockMvcRequestBuilders.get(URL + "/{id}", ID_FOUND))
+        mockMvc.perform(MockMvcRequestBuilders.get(URL + "/{id}", ID_FOUND).with(httpBasic(USERNAME, PASSWORD)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(response));
@@ -135,7 +137,7 @@ class AnimeControllerTest {
 
         BDDMockito.when(service.findById(ArgumentMatchers.any())).thenThrow(new NotFoundException(ANIME_NOT_FOUND));
 
-        mockMvc.perform(MockMvcRequestBuilders.get(URL + "/{id}", ID_NOT_FOUND))
+        mockMvc.perform(MockMvcRequestBuilders.get(URL + "/{id}", ID_NOT_FOUND).with(httpBasic(USERNAME, PASSWORD)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andExpect(MockMvcResultMatchers.content().json(response));
@@ -157,7 +159,7 @@ class AnimeControllerTest {
 
         BDDMockito.when(service.findByName(name)).thenReturn(animeFound);
 
-        mockMvc.perform(MockMvcRequestBuilders.get(URL + "/filter").param("name", name))
+        mockMvc.perform(MockMvcRequestBuilders.get(URL + "/filter").with(httpBasic(USERNAME, PASSWORD)).param("name", name))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(response));
@@ -178,7 +180,7 @@ class AnimeControllerTest {
 
         BDDMockito.when(service.save(ArgumentMatchers.any())).thenReturn(animeToSave);
 
-        mockMvc.perform(MockMvcRequestBuilders.post(URL + "/post").content(request).contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(MockMvcRequestBuilders.post(URL + "/post").with(httpBasic(USERNAME, PASSWORD)).content(request).contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
@@ -195,7 +197,7 @@ class AnimeControllerTest {
 
         BDDMockito.doNothing().when(service).update(ArgumentMatchers.any());
 
-        mockMvc.perform(MockMvcRequestBuilders.put(URL).content(request).contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(MockMvcRequestBuilders.put(URL).with(httpBasic(USERNAME, PASSWORD)).content(request).contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isNoContent());
 
@@ -213,7 +215,7 @@ class AnimeControllerTest {
         BDDMockito.doThrow(new NotFoundException(ANIME_NOT_FOUND)).when(service).update(ArgumentMatchers.any());
 
 
-        mockMvc.perform(MockMvcRequestBuilders.put(URL).content(request).contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(MockMvcRequestBuilders.put(URL).with(httpBasic(USERNAME, PASSWORD)).content(request).contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andExpect(MockMvcResultMatchers.content().json(response));
@@ -228,7 +230,7 @@ class AnimeControllerTest {
 
         BDDMockito.doNothing().when(service).delete(ArgumentMatchers.any());
 
-        mockMvc.perform(MockMvcRequestBuilders.delete(URL + "/{id}", ID_FOUND))
+        mockMvc.perform(MockMvcRequestBuilders.delete(URL + "/{id}", ID_FOUND).with(httpBasic(USERNAME, PASSWORD)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isNoContent());
 
@@ -243,7 +245,7 @@ class AnimeControllerTest {
 
         BDDMockito.doThrow(new NotFoundException(ANIME_NOT_FOUND)).when(service).delete(ArgumentMatchers.any());
 
-        mockMvc.perform(MockMvcRequestBuilders.delete(URL + "/{id}", ID_NOT_FOUND))
+        mockMvc.perform(MockMvcRequestBuilders.delete(URL + "/{id}", ID_NOT_FOUND).with(httpBasic(USERNAME, PASSWORD)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andExpect(MockMvcResultMatchers.content().json(response));
@@ -258,7 +260,7 @@ class AnimeControllerTest {
 
         var request = fileUtils.readResourcesFile("anime/%s".formatted(fileName));
 
-        var mvcResult = mockMvc.perform(MockMvcRequestBuilders.post(URL + "/post")
+        var mvcResult = mockMvc.perform(MockMvcRequestBuilders.post(URL + "/post").with(httpBasic(USERNAME, PASSWORD))
                         .content(request)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
@@ -291,7 +293,7 @@ class AnimeControllerTest {
 
         var request = fileUtils.readResourcesFile("anime/%s".formatted(fileName));
 
-        var mvcResult = mockMvc.perform(MockMvcRequestBuilders.put(URL).content(request).contentType(MediaType.APPLICATION_JSON))
+        var mvcResult = mockMvc.perform(MockMvcRequestBuilders.put(URL).with(httpBasic(USERNAME, PASSWORD)).content(request).contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andReturn();
@@ -314,5 +316,16 @@ class AnimeControllerTest {
                 Arguments.of("put-request-anime-empty-fields-400.json", errorMessage));
     }
 
+    @Test
+    @DisplayName("get() throw Unauthorized when username is incorrect")
+    @Order(14)
+    public void get_ThrowsUnauthorized_WhenInvalidUsername() throws Exception {
 
+        BDDMockito.when(service.findAll()).thenReturn(animeUtils.newAnimeList());
+
+        mockMvc.perform(MockMvcRequestBuilders.get(URL).with(httpBasic(INVALID_USERNAME, PASSWORD)))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isUnauthorized());
+
+    }
 }
