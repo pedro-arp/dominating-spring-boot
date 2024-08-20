@@ -17,3 +17,11 @@ spring:
 logging:
   level:
     org.springframework.security: DEBUG
+
+management:
+  server:
+    port: 8989
+  endpoints:
+    web:
+      exposure:
+        include: "*"
