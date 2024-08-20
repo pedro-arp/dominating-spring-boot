@@ -73,6 +73,7 @@
                                 <interfaceOnly>true</interfaceOnly>
                                 <useTags>true</useTags>
                                 <documentationProvider>springdoc</documentationProvider>
+                                <implicitHeaders>true</implicitHeaders>
                             </configOptions>
                         </configuration>
                     </execution>
