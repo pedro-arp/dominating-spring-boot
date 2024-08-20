@@ -17,6 +17,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    private static final String[] WHITE_LIST = {"/swagger-ui.html", "/v3/**", "/swagger-ui/**", "/csrf"};
+
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
         var user =
@@ -27,8 +29,6 @@ public class SecurityConfig {
 
         return new InMemoryUserDetailsManager(user);
     }
-
-    private static final String[] WHITE_LIST = {"/swagger-ui.html", "/swagger-ui/**", "/v3**"};
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http)

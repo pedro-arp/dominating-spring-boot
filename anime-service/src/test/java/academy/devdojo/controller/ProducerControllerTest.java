@@ -39,7 +39,7 @@ import java.util.stream.Stream;
 @WithMockUser
 class ProducerControllerTest {
 
-    private static final String URL = "/v1/producers";
+    private static final String URL = "/v1/producers/";
     private static final Long ID_FOUND = 1L;
     private static final Long ID_NOT_FOUND = 1000L;
     private static final String INVALID_NAME = "x";
