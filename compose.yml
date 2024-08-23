@@ -1,4 +1,8 @@
 version: '3.8'
+x-database-variables: &database-variables
+  SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/anime_service?useTimezone=true&serverTimezone=UTC&createDatabaseIfNotExist=true
+  ROOT_USER: root
+  ROOT_PASSWORD: example
 
 services:
 
@@ -28,5 +32,12 @@ services:
       - "3000:3000"
     volumes:
       - ./grafana/datasources:/etc/grafana/provisioning/datasources
+  anime-service:
+    image: pedroarp1/anime-service:0.0.1-SNAPSHOT
+    container_name: anime-service
+    ports:
+      - "8080:8080"
+    environment:
+      <<: *database-variables
 volumes:
   devdojo-db:
