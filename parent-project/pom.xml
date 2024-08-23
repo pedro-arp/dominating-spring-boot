@@ -27,7 +27,7 @@
         <json-unit-assertj.version>3.0.0</json-unit-assertj.version>
         <spring-boot-starter-actuator.version>3.3.2</spring-boot-starter-actuator.version>
 
-        <jib-maven-plugin.image>eclipse-temurin:17-jre</jib-maven-plugin.image>
+        <jib-maven-plugin.image>gcr.io/distroless/java17-debian11</jib-maven-plugin.image>
         <docker.repo.url>pedroarp1</docker.repo.url>
         <docker.repo.project>${project.artifactId}</docker.repo.project>
         <docker.image.name>${docker.repo.url}/${docker.repo.project}</docker.image.name>
