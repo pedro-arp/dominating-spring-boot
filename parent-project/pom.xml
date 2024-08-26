@@ -6,32 +6,32 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.2</version>
+        <version>3.2.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>academy.devdojo</groupId>
     <artifactId>parent-project</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>17</java.version>
+        <java.version>21</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
-        <commons-core.version>0.0.2-SNAPSHOT</commons-core.version>
-        <springdoc-openapi-starter-webmvc-ui.version>2.2.0</springdoc-openapi-starter-webmvc-ui.version>
-        <rest-assured.version>5.3.1</rest-assured.version>
+        <commons-core.version>0.0.3-SNAPSHOT</commons-core.version>
+        <springdoc-openapi-starter-webmvc-ui.version>2.6.0</springdoc-openapi-starter-webmvc-ui.version>
+        <testcontainers-bom.version>1.20.1</testcontainers-bom.version>
+        <rest-assured.version>5.5.0</rest-assured.version>
         <json-unit-assertj.version>3.0.0</json-unit-assertj.version>
-        <spring-boot-starter-actuator.version>3.3.2</spring-boot-starter-actuator.version>
-
+        <spring-boot-starter-actuator.version>3.3.3</spring-boot-starter-actuator.version>
         <jib-maven-plugin.image>gcr.io/distroless/java17-debian11</jib-maven-plugin.image>
         <docker.repo.url>pedroarp1</docker.repo.url>
         <docker.repo.project>${project.artifactId}</docker.repo.project>
         <docker.image.name>${docker.repo.url}/${docker.repo.project}</docker.image.name>
-        <jib-maven-plugin.version>3.3.2</jib-maven-plugin.version>
+        <jib-maven-plugin.version>3.4.3</jib-maven-plugin.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -202,8 +202,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <source>17</source> <!-- depending on your project -->
-                    <target>17</target> <!-- depending on your project -->
+                    <source>${java.version}</source> <!-- depending on your project -->
+                    <target>${java.version}</target> <!-- depending on your project -->
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>
@@ -244,7 +244,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>${maven-failsafe-plugin.version}</version>
                         <configuration>
                             <argLine>-Dspring.profiles.active=test</argLine>
                             <includes>
