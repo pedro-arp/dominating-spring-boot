@@ -2,7 +2,7 @@ package academy.devdojo.service;
 
 import academy.devdojo.config.BrasilApiConfigurationProperties;
 import academy.devdojo.exception.NotFoundException;
-import academy.devdojo.response.CepGetErrorResponse;
+import academy.devdojo.response.CepErrorResponse;
 import academy.devdojo.response.CepGetResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class BrasilApiService {
                 .uri(brasilApiConfigurationProperties.uri(), cep)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, ((request, response) -> {
-                    var cepGetResponse = mapper.readValue(response.getBody().readAllBytes(),CepGetErrorResponse.class);
+                    var cepGetResponse = mapper.readValue(response.getBody().readAllBytes(), CepErrorResponse.class);
                     throw new NotFoundException(cepGetResponse.toString());
                 }))
                 .body(CepGetResponse.class);
