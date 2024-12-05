@@ -1,4 +1,4 @@
-<title>Curso de Spring Boot</title>
+
 </head>
 <body>
     <h1>Curso de Spring Boot</h1>
