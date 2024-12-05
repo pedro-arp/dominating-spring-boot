@@ -6,12 +6,12 @@
     <parent>
         <groupId>academy.devdojo</groupId>
         <artifactId>parent-project</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.3-SNAPSHOT</version>
         <relativePath/> <!-- lookup parent from repository  -->
     </parent>
 
     <artifactId>user-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <name>user-service</name>
     <description>User Service DevDojo Academy</description>
 
@@ -19,6 +19,22 @@
         <dependency>
             <groupId>academy.devdojo</groupId>
             <artifactId>commons-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-contract-wiremock</artifactId>
         </dependency>
     </dependencies>
 

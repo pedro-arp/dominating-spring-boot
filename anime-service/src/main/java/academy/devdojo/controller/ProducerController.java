@@ -1,11 +1,13 @@
 package academy.devdojo.controller;
 
+import academy.devdojo.api.ProducerControllerApi;
+import academy.devdojo.dto.ProducerGetResponse;
+import academy.devdojo.dto.ProducerPostRequest;
+import academy.devdojo.dto.ProducerPostResponse;
+import academy.devdojo.dto.ProducerPutRequest;
 import academy.devdojo.mapper.ProducerMapper;
-import academy.devdojo.request.ProducerPostRequest;
-import academy.devdojo.request.ProducerPutRequest;
-import academy.devdojo.response.ProducerGetResponse;
-import academy.devdojo.response.ProducerPostResponse;
 import academy.devdojo.service.ProducerService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -17,17 +19,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = {"v1/producers/", "v1/producers"})
+@RequestMapping(path = {"v1/producers/"})
 @Log4j2
 @RequiredArgsConstructor
-
-public class ProducerController {
+@SecurityRequirement(name = "basicAuth")
+public class ProducerController implements ProducerControllerApi {
 
     private final ProducerMapper mapper;
     private final ProducerService producerService;
 
     @GetMapping
-    public ResponseEntity<List<ProducerGetResponse>> list() {
+    public ResponseEntity<List<ProducerGetResponse>> listAllProducers() {
         log.info("Request received to list all producers");
 
         var producers = producerService.findAll();
@@ -38,7 +40,7 @@ public class ProducerController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<ProducerGetResponse> findById(@PathVariable Long id) {
+    public ResponseEntity<ProducerGetResponse> findProducerById(@PathVariable Long id) {
         log.info("Request received find producer by id '{}'", id);
 
         var producerFound = producerService.findById(id);
@@ -50,7 +52,7 @@ public class ProducerController {
 
 
     @GetMapping("filter")
-    public ResponseEntity<ProducerGetResponse> findByName(@RequestParam(required = false) String name) {
+    public ResponseEntity<ProducerGetResponse> findProducerByName(@RequestParam(required = false) String name) {
         log.info("Request received to list all producers, param name '{}'", name);
 
         var producerFound = producerService.findByName(name);
@@ -60,9 +62,9 @@ public class ProducerController {
         return ResponseEntity.ok(producerGetResponse);
     }
 
-    @PostMapping(value = "post", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE, headers = "x-api-version=v1")
+    @PostMapping(value = "post", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 
-    public ResponseEntity<ProducerPostResponse> save(@RequestBody @Valid ProducerPostRequest request) {
+    public ResponseEntity<ProducerPostResponse> saveProducer(@RequestBody @Valid ProducerPostRequest request) {
 
         var producer = mapper.toProducer(request);
 
@@ -74,7 +76,7 @@ public class ProducerController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteProducer(@PathVariable Long id) {
         log.info("Request received to delete the producer by id '{}'", id);
 
         producerService.delete(id);
@@ -83,7 +85,7 @@ public class ProducerController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> update(@RequestBody @Valid ProducerPutRequest request) {
+    public ResponseEntity<Void> updateProducer(@RequestBody @Valid ProducerPutRequest request) {
 
         log.info("Request received to delete the producer by id'{}'", request);
 

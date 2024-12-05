@@ -1,7 +1,7 @@
-insert into user (id, first_name, last_name, email)
-values (1, 'goku', 'son', 'goku.son@hotmail.com');
-insert into user (id, first_name, last_name, email)
-values (2, 'gohan', 'son', 'gohan.son@hotmail.com');
+insert into user (id, first_name, last_name, email, roles, password)
+values (1, 'goku', 'son', 'goku.son@hotmail.com', 'USER', '{bcrypt}$2a$10$BmWgGrkptSleGv6mv.nQ0OJnPMf61vjZUTiX7m6bAh/xYhEKukUP2');
+insert into user (id, first_name, last_name, email, roles, password)
+values (2, 'gohan', 'son', 'gohan.son@hotmail.com', 'USER', '{bcrypt}$2a$10$BmWgGrkptSleGv6mv.nQ0OJnPMf61vjZUTiX7m6bAh/xYhEKukUP2');
 insert into profile (id, name, description)
 values (1, 'Administrator', 'All permission');
 insert into user_profile (profile_id, user_id)

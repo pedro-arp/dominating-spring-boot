@@ -5,21 +5,45 @@
     <parent>
         <groupId>academy.devdojo</groupId>
         <artifactId>parent-project</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.3-SNAPSHOT</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
     <artifactId>anime-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Anime Service</name>
     <description>Dominando Spring Boot: Do Zero ao Profissional</description>
+    <properties>
+        <anime-api-client.version>1.2-SNAPSHOT</anime-api-client.version>
+    </properties>
 
     <dependencies>
-    <dependency>
-        <groupId>academy.devdojo</groupId>
-        <artifactId>commons-core</artifactId>
-    </dependency>
-</dependencies>
+        <dependency>
+            <groupId>academy.devdojo</groupId>
+            <artifactId>commons-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>academy.devdojo</groupId>
+            <artifactId>anime-api-client</artifactId>
+            <version>${anime-api-client.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+
+        </plugins>
+    </build>
 
 </project>

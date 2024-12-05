@@ -1,9 +1,45 @@
+
 {
-  "timestamp": "2024-04-30T11:51:49.285+00:00",
+  "timestamp": "2024-08-14T13:40:40.639+00:00",
   "status": 400,
   "error": "Bad Request",
-  "message": "Validation failed for object='userPostRequest'. Error count: 3",
+  "message": "Validation failed for object='userPostRequest'. Error count: 4",
   "errors": [
+    {
+      "codes": [
+        "Email.userPostRequest.email",
+        "Email.email",
+        "Email.java.lang.String",
+        "Email"
+      ],
+      "arguments": [
+        {
+          "codes": [
+            "userPostRequest.email",
+            "email"
+          ],
+          "arguments": null,
+          "defaultMessage": "email",
+          "code": "email"
+        },
+        [
+
+        ],
+        {
+          "arguments": null,
+          "defaultMessage": "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$",
+          "codes": [
+            "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"
+          ]
+        }
+      ],
+      "defaultMessage": "The email format is not valid",
+      "objectName": "userPostRequest",
+      "field": "email",
+      "rejectedValue": "",
+      "bindingFailure": false,
+      "code": "Email"
+    },
     {
       "codes": [
         "NotBlank.userPostRequest.lastName",
@@ -56,36 +92,28 @@
     },
     {
       "codes": [
-        "Email.userPostRequest.email",
-        "Email.email",
-        "Email.java.lang.String",
-        "Email"
+        "NotBlank.userPostRequest.password",
+        "NotBlank.password",
+        "NotBlank.java.lang.String",
+        "NotBlank"
       ],
       "arguments": [
         {
           "codes": [
-            "userPostRequest.email",
-            "email"
+            "userPostRequest.password",
+            "password"
           ],
           "arguments": null,
-          "defaultMessage": "email",
-          "code": "email"
-        },
-        [],
-        {
-          "arguments": null,
-          "defaultMessage": "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$",
-          "codes": [
-            "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"
-          ]
+          "defaultMessage": "password",
+          "code": "password"
         }
       ],
-      "defaultMessage": "The email format is not valid",
+      "defaultMessage": "The field 'password' is required",
       "objectName": "userPostRequest",
-      "field": "email",
+      "field": "password",
       "rejectedValue": "",
       "bindingFailure": false,
-      "code": "Email"
+      "code": "NotBlank"
     }
   ],
   "path": "/v1/users"

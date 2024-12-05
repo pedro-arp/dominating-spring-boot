@@ -2,10 +2,11 @@ package academy.devdojo.controller;
 
 
 import academy.devdojo.commons.FileUtils;
-import academy.devdojo.commons.ProfileUtils;
 import academy.devdojo.config.IntegrationTestContainers;
+import academy.devdojo.config.RestAssuredConfig;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import io.restassured.specification.RequestSpecification;
 import net.javacrumbs.jsonunit.assertj.JsonAssertions;
 import net.javacrumbs.jsonunit.core.Option;
 import org.hamcrest.Matchers;
@@ -17,31 +18,32 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlMergeMode;
 
 import java.util.stream.Stream;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = RestAssuredConfig.class)
+@Sql("/sql/user/init_one_login_regular_user.sql")
+@SqlMergeMode(SqlMergeMode.MergeMode.MERGE)
 public class ProfileControllerRestAssuredIT extends IntegrationTestContainers {
     private static final String URL = "/v1/profiles";
 
     @Autowired
-    private ProfileUtils profileUtils;
-
-    @Autowired
     private FileUtils fileUtils;
 
-    @LocalServerPort
-    private int port;
+    @Autowired
+    @Qualifier(value = "requestSpecificationRegularUser")
+    private RequestSpecification requestSpecificationRegularUser;
 
     @BeforeEach
     void setUrl() {
-        RestAssured.baseURI = "http://localhost";
-        RestAssured.port = port;
+        RestAssured.requestSpecification = requestSpecificationRegularUser;
     }
+
 
     @Test
     @Sql("/sql/profile/init_two_profiles.sql")

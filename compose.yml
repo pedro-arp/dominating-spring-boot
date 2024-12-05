@@ -1,4 +1,8 @@
 version: '3.8'
+x-database-variables: &database-variables
+  SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/anime_service?useTimezone=true&serverTimezone=UTC&createDatabaseIfNotExist=true
+  ROOT_USER: root
+  ROOT_PASSWORD: example
 
 services:
 
@@ -11,7 +15,30 @@ services:
       MYSQL_PASSWORD: ${REGULAR_PASSWORD}
     ports:
       - "3306:3306"
+      - "3307:3306"
     volumes:
       - devdojo-db:/var/lib/mysql
+#  prometheus:
+#      image: prom/prometheus:v2.53.2
+#      container_name: prometheus
+#      ports:
+#        - "9090:9090"
+#      volumes:
+#        - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+#  grafana:
+#    image: grafana/grafana:10.1.2
+#    container_name: grafana
+#    ports:
+#      - "3000:3000"
+#    volumes:
+#      - ./grafana/datasources:/etc/grafana/provisioning/datasources
+#  anime-service:
+#    image: pedroarp1/anime-service:0.0.1-SNAPSHOT
+#    container_name: anime-service
+#    ports:
+#      - "8080:8080"
+#    environment:
+#      <<: *database-variables
+      #SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/anime_service?useTimezone=true&serverTimezone=UTC&createDatabaseIfNotExist=true
 volumes:
   devdojo-db:

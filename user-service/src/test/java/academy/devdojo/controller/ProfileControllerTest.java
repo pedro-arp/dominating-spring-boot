@@ -2,6 +2,7 @@ package academy.devdojo.controller;
 
 import academy.devdojo.commons.FileUtils;
 import academy.devdojo.commons.ProfileUtils;
+import academy.devdojo.config.SecurityConfig;
 import academy.devdojo.mapper.ProfileMapperImpl;
 import academy.devdojo.service.ProfileService;
 import org.assertj.core.api.Assertions;
@@ -16,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -27,7 +29,8 @@ import java.util.stream.Stream;
 
 @WebMvcTest(ProfileController.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@Import({ProfileMapperImpl.class, ProfileUtils.class, FileUtils.class})
+@Import({ProfileMapperImpl.class, ProfileUtils.class, FileUtils.class, SecurityConfig.class})
+@WithMockUser(roles = "USER")
 class ProfileControllerTest {
     private static final String URL = "/v1/profiles";
 
@@ -42,6 +45,7 @@ class ProfileControllerTest {
 
     @Autowired
     private FileUtils fileUtils;
+
 
     @Test
     @DisplayName("findAll() must return a list of all Profiles")

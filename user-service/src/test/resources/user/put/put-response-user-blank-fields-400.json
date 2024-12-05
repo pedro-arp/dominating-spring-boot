@@ -80,7 +80,7 @@
           "code": "firstName"
         }
       ],
-      "defaultMessage": "The field 'fistName' is required",
+      "defaultMessage": "The field 'firstName' is required",
       "objectName": "userPutRequest",
       "field": "firstName",
       "rejectedValue": "     ",

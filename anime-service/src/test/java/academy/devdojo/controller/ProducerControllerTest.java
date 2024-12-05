@@ -3,6 +3,7 @@ package academy.devdojo.controller;
 
 import academy.devdojo.commons.FileUtils;
 import academy.devdojo.commons.ProducerUtils;
+import academy.devdojo.config.SecurityConfig;
 import academy.devdojo.exception.NotFoundException;
 import academy.devdojo.mapper.ProducerMapperImpl;
 import academy.devdojo.service.ProducerService;
@@ -18,6 +19,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -32,10 +35,11 @@ import java.util.stream.Stream;
 @WebMvcTest(ProducerController.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ActiveProfiles("test")
-@Import({ProducerMapperImpl.class, ProducerService.class, FileUtils.class, ProducerUtils.class})
+@Import({ProducerMapperImpl.class, ProducerService.class, FileUtils.class, ProducerUtils.class, SecurityConfig.class, BCryptPasswordEncoder.class})
+@WithMockUser
 class ProducerControllerTest {
 
-    private static final String URL = "/v1/producers";
+    private static final String URL = "/v1/producers/";
     private static final Long ID_FOUND = 1L;
     private static final Long ID_NOT_FOUND = 1000L;
     private static final String INVALID_NAME = "x";
@@ -56,7 +60,6 @@ class ProducerControllerTest {
 
 
     @Test
-
     @DisplayName("list() returns a list with found producers when name is not null")
     @Order(1)
     void list_ReturnsFoundProducers_WhenSuccessful() throws Exception {
@@ -267,5 +270,17 @@ class ProducerControllerTest {
 
         return Stream.of(Arguments.of("put-request-producer-blank-fields-400.json", errorMessage), Arguments.of("put-request-producer-empty-fields-400.json", errorMessage));
     }
+
+    @Test
+    @DisplayName("get() returns Unauthorized when roles is incorrect")
+    @Order(14)
+    @WithMockUser(roles = "INCORRECT")
+    void list_ReturnsUnauthorized_WhenRolesIncorrect() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.get(URL))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
+    }
+
 
 }

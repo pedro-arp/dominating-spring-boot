@@ -2,12 +2,15 @@ server:
   port: 8090
   error:
     include-stacktrace: never
-
 spring:
   application:
     name: user-service
+  #  security:
+  #    user:
+  #      name: user
+  #      password: devdojo
   datasource:
-    url: jdbc:mysql://localhost:3306/user-service?useTimezone=true&serverTimezone=UTC&createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3307/user-service?useTimezone=true&serverTimezone=UTC&createDatabaseIfNotExist=true
     username: ${ROOT_USER:root}
     password: ${ROOT_PASSWORD:example}
 
@@ -15,3 +18,17 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+
+#user:
+#  username: ${USER_USERNAME:pedro}
+#  password: ${USER_PASSWORD:augusto}
+#admin:
+#  username: ${ADMIN_USERNAME:bianca}
+#  password: ${ADMIN_PASSWORD:violante}
+
+logging:
+  level:
+    org.springframework.security: debug
+brasil-api:
+  base-url: ${BRASIL_API_BASE_URL:https://brasilapi.com.br/api}
+  uri: ${BRASIL_API_URI:/cep/v1/{cep}}
